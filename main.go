@@ -27,7 +27,9 @@ var cfg *config
 func main() {
 	log.AddLogger(log.DefaultLogger)
 	loadConfig()
-	cfg.Interval = 1
+	if cfg.Interval == 0 {
+		log.Fatal("no interval found in config file")
+	}
 	for _ = range time.Tick(time.Duration(cfg.Interval) * time.Minute) {
 		chatters := getChatters()
 		if chatters != nil {
